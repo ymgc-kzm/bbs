@@ -1,0 +1,42 @@
+<h1>Listing BBS</h1>
+
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Message</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+<% @posts.each do |post| %>
+  <tr class="info">
+    <td><%= post.name %></td>
+    <td><%= post.message %></td>
+    <td style="width:150px;"><p class="text-right">
+    <%= link_to 'Comment', post, class:"btn btn-mini btn-primary" %>
+    <%= link_to 'Edit', edit_post_path(post), class:"btn btn-mini btn-primary" %>
+    <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-mini btn-primary" %></p></td>
+  </tr>
+  <% if post.comments.any? %>
+  <% post.comments.each do |comment| %>
+      <tr>
+        <td><p class="text-right initialism"><small><%= comment.name %></small></p></td>
+        <td><p class="text-right initialism"><small><%= comment.message %></small></p></td>
+        <td><p class="text-right initialism">
+          <%= link_to 'Delete', [comment.post, comment], 
+                method: :delete,
+                confirm: 'Are you sure?',
+                class:"btn btn-mini btn-primary" %></p>
+        </td>
+      </tr>
+  <% end %>
+  <% end %>
+<% end %>
+  </tbody>
+</table>
+
+<%= render 'form' %>
+
+<br />

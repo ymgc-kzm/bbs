@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<div class="well">
+<dl class="dl-horizontal">
+  <dt>Name:</dt>
+  <dd><%= @post.name %></dd>
+  
+  <dt>Message:</dt>
+  <dd><%= @post.message %></dd>
+</ul>
+</div>
+
+
+<% if @post.comments.any? %>
+  <% @post.comments.each do |comment| %>
+    <div class="well well-small" style="margin-left:100px;">
+    <dl class="dl-horizontal">
+      <dt>Name:</dt>
+      <dd><%= comment.name %></dd>
+      <dt>Message:</dt>
+      <dd><%= comment.message %></dd>
+    </ul>
+    </div>
+  <% end %>
+<% end %>
+
+
+<%= form_for([@post, @comment]) do |f| %>
+  <% if @post.errors.any? %>
+    <div class="alert alert-error">
+      <h4 class="alert-heading">
+      <%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:
+      </h4>
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+  <div class="form-horizontal well" style="margin-left:100px;">
+    <legend>Comment</legend>
+    
+    <div class="control-group">
+      <%= f.label :name, class:'control-label' %>
+      <div class="controls">
+          <%= f.text_field :name, class:'input-xlarge' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :message, class:'control-label' %>
+      <div class="controls">
+          <%= f.text_area :message, class:'input-xlarge', :size => "20x8" %>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <%= f.submit class:'btn btn-primary' %>
+    </div>
+  </div>
+  </firldset>
+<% end %>
+
+
+<ul class="breadcrumb">
+    <li><%= link_to 'Edit', edit_post_path(@post) %> <span class="divider">/</span></li>
+    <li><%= link_to 'Back', posts_path %></li>
+</ul>
